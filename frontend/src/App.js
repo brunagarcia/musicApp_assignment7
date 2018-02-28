@@ -1,19 +1,52 @@
 import React, { Component } from 'react';
-import {Route} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+
+import axios from 'axios';
+
 import SongsList from './components/SongsList';
 import SongDetails from './components/SongDetails';
+
 
 class App extends Component {
   constructor() {
     super()
-
     this.state = {
+      songs: [],
       //State for pausing and playing a song.
       isPlaying: false,
       //State keeping track of your track.
       currentSong: 0
-    }
+    };
   }
+
+  componentDidMount(){
+    axios.get('http://localhost:8080/getsongs')
+    .then((response)=> {
+      console.log(response);
+      console.log(response.data);
+        this.setState({
+        songs: response.data
+        })  
+      })
+    .catch((error) => {
+      console.log(error)
+      })
+    }
+
+
+  playSong = (song) => {
+    //checking what song is playing
+    console.log(song.source)
+    console.log(song.id)
+
+    this.audioPlayer.load()
+    this.audioPlayer.play()
+    this.setState({
+      isPlaying: true,
+      currentSong: song.id
+    })
+  }
+
 
   play = () => {
     this.setState({
@@ -22,32 +55,33 @@ class App extends Component {
   }
 
   changeSong = (index) => {
+    //checking what song is playing
     console.log(index)
     this.setState({
       currentSong: this.state.currentSong + index,
       isPlaying: this.state.isPlaying
-    },() => {
-      this.audioPlayer.load()
-      this.audioPlayer.play()
     })
   }
 
+  componentDidUpdate() {
+    this.audioPlayer.load()
 
-  componentWillUpdate(prevProps, prevState) {
-    if(prevState.isPlaying) this.audioPlayer.play()
+    if(this.state.isPlaying) this.audioPlayer.play()
     else this.audioPlayer.pause()
   }
 
   render() {
-    //console log the song title playing.
-    console.log(this.props.songs[this.state.currentSong].title);
     return (
+      
       <div className="App">
+      {this.state.songs.length > 0 && 
 
-        <h3> Playing: {this.props.songs[this.state.currentSong].title} </h3>
+        <div>
+    
+        <h3> Playing: {this.state.songs[this.state.currentSong].title} </h3>
 
         <audio ref={(self) => {this.audioPlayer = self}}>
-          <source src={this.props.songs[this.state.currentSong].source} />
+          <source src={this.state.songs[this.state.currentSong].source} />
         </audio>
 
         <button type="button" onClick={()=>{
@@ -56,24 +90,36 @@ class App extends Component {
         </button>
 
         <button type="button" onClick={()=>{
-          this.changeSong(1)}} disabled={this.state.currentSong === this.props.songs.length -1}>
-            Next  
+          this.changeSong(1)}} disabled={this.state.currentSong === this.state.songs.length -1}>
+            Next
         </button>
 
         <button onClick={this.play}>
           {this.state.isPlaying ? 'Pause' : 'Play'}
         </button> 
+        
+        
+        <Switch>
+          <Route exact path="/" render={()=>
+            <SongsList 
+            songs={this.state.songs}
+            playSong={this.playSong}
+            />}
+          />
+          <Route path='/:songId' render={(props)=>
+            <SongDetails 
+            songs={this.state.songs} {...props}
+            playSong={this.playSong}
+            
+            />}
+          />
 
-        <Route exact path="/" render={()=>
-          <SongsList msg={'this is how we pass props in react router'}/>}
-        />
-        <Route path='/:songId'render={(props)=>
-          <SongDetails songs={this.props.songs} {...props}/>}
-        />
-
-
+        </Switch>
+       </div> 
+      }
       </div>
-    );
+        
+      )
   }
 }
 

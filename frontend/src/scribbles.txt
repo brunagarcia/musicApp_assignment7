@@ -1,0 +1,9 @@
+  //trying to make statesull prev and next
+  
+  componentDidUpdate(prevProps, prevState) {
+    if(!prevState.isPlaying){ this.audioPlayer.play()
+        this.setState({
+          isPlaying: prevState.isPlaying
+        })
+       } else this.audioPlayer.pause()
+  }
