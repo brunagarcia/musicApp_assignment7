@@ -11,7 +11,7 @@ class SongsList extends Component {
                      <h3> {song.title} </h3>
                     </Link>
                    
-                     <button type="button" onClick={() => {this.props.playSong(song)}}> {this.state.isPlaying ? 'Pause' : 'Play'}</button>   
+                     <button type="button" onClick={() => {this.props.playSong(song)}}> {this.props.isPlaying ? 'Pause' : 'Play'}</button>   
 
                     </div>
         })

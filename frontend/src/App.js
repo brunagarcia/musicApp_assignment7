@@ -36,13 +36,13 @@ class App extends Component {
 
   playSong = (song) => {
     //checking what song is playing
-    console.log(song.source)
-    console.log(song.id)
+    // console.log(song.source)
+    // console.log(song.id)
 
-    this.audioPlayer.load()
-    this.audioPlayer.play()
+    // this.audioPlayer.load()
+    // this.audioPlayer.play()
     this.setState({
-      isPlaying: true,
+      isPlaying: !this.state.isPlaying,
       currentSong: song.id
     })
   }
@@ -64,19 +64,15 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    this.audioPlayer.load()
-
+    // this.audioPlayer.load()
     if(this.state.isPlaying) this.audioPlayer.play()
     else this.audioPlayer.pause()
   }
 
   render() {
     return (
-      
+      this.state.songs.length > 0 && 
       <div className="App">
-      {this.state.songs.length > 0 && 
-
-        <div>
     
         <h3> Playing: {this.state.songs[this.state.currentSong].title} </h3>
 
@@ -102,25 +98,25 @@ class App extends Component {
         <Switch>
           <Route exact path="/" render={()=>
             <SongsList 
-            songs={this.state.songs}
+            songs={this.state.songs} 
             playSong={this.playSong}
+            isPlaying={this.state.isPlaying}
             />}
           />
           <Route path='/:songId' render={(props)=>
             <SongDetails 
             songs={this.state.songs} {...props}
             playSong={this.playSong}
+            isPlaying={this.state.isPlaying}
             
             />}
           />
 
         </Switch>
        </div> 
-      }
-      </div>
         
       )
-  }
+    }
 }
 
 export default App;
