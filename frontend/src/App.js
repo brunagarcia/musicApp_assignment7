@@ -7,11 +7,20 @@ import SongsList from './components/SongsList';
 import SongDetails from './components/SongDetails';
 
 import RaisedButton from 'material-ui/RaisedButton';
+// import Paper from 'material-ui/Paper';
 
 const style = {
-  backgroundColor:'cyan400',
   margin: 12,
 };
+
+// const stylePaper = {
+//     backgroundColor: 'grey900',
+//     height: 800,
+//     width: 800,
+//     margin: 20,
+//     textAlign: 'center',
+//     display: 'inline-block',
+//   };
 
 class App extends Component {
   constructor() {
@@ -72,9 +81,11 @@ class App extends Component {
   render() {
     return (
       this.state.songs.length > 0 && 
-      <div className="App">
-    
-        <h3> Playing: {this.state.songs[this.state.currentSong].title} </h3>
+
+        <div className="App">
+        {/* <Paper style={stylePaper} zDepth={2} /> */}
+      
+        <h3 className="title"> Playing: {this.state.songs[this.state.currentSong].title} </h3>
 
         <audio ref={(self) => {this.audioPlayer = self}}>
           <source src={this.state.songs[this.state.currentSong].source} />
@@ -119,8 +130,9 @@ class App extends Component {
           /> 
 
         </Switch>
-       </div> 
+
         
+        </div>
       )
     }
 }
