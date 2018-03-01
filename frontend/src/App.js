@@ -6,6 +6,12 @@ import axios from 'axios';
 import SongsList from './components/SongsList';
 import SongDetails from './components/SongDetails';
 
+import RaisedButton from 'material-ui/RaisedButton';
+
+const style = {
+  backgroundColor:'cyan400',
+  margin: 12,
+};
 
 class App extends Component {
   constructor() {
@@ -35,12 +41,6 @@ class App extends Component {
 
 
   playSong = (song) => {
-    //checking what song is playing
-    // console.log(song.source)
-    // console.log(song.id)
-
-    // this.audioPlayer.load()
-    // this.audioPlayer.play()
     this.setState({
       isPlaying: !this.state.isPlaying,
       currentSong: song.id
@@ -80,19 +80,25 @@ class App extends Component {
           <source src={this.state.songs[this.state.currentSong].source} />
         </audio>
 
-        <button type="button" onClick={()=>{
-          this.changeSong(-1)}} disabled={this.state.currentSong === 0}>
-            Previous
-        </button>
+        <RaisedButton
+          icon={<i className="material-icons">skip_previous</i>}
+          style={style} onClick={()=>{
+            this.changeSong(-1)}} disabled={this.state.currentSong === 0}
+        />
 
-        <button type="button" onClick={()=>{
-          this.changeSong(1)}} disabled={this.state.currentSong === this.state.songs.length -1}>
-            Next
-        </button>
+        <RaisedButton
+          icon={<i className="material-icons">skip_next</i>}
+          style={style} onClick={()=>{
+            this.changeSong(1)}} disabled={this.state.currentSong === this.state.songs.length -1}
+        />
 
-        <button onClick={this.play}>
-          {this.state.isPlaying ? 'Pause' : 'Play'}
-        </button> 
+
+        <RaisedButton
+          icon={this.state.isPlaying ? 
+          <i className="material-icons">play_circle_filled</i> : 
+          <i className="material-icons">pause_circle_filled</i>
+         } style={style} onClick={this.play}
+        />
         
         
         <Switch>
@@ -110,7 +116,7 @@ class App extends Component {
             isPlaying={this.state.isPlaying}
             
             />}
-          />
+          /> 
 
         </Switch>
        </div> 
