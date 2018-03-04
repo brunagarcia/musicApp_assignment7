@@ -82,7 +82,7 @@ class App extends Component {
     return (
       this.state.songs.length > 0 && 
 
-        <div className="App">
+        <div className="text-align-center">
         {/* <Paper style={stylePaper} zDepth={2} /> */}
       
         <h3 className="title"> Playing: {this.state.songs[this.state.currentSong].title} </h3>
@@ -103,13 +103,14 @@ class App extends Component {
             this.changeSong(1)}} disabled={this.state.currentSong === this.state.songs.length -1}
         />
 
-
+      <div className="buttonPlay">
         <RaisedButton
           icon={this.state.isPlaying ? 
           <i className="material-icons">play_circle_filled</i> : 
           <i className="material-icons">pause_circle_filled</i>
-         } style={style} onClick={this.play}
+            } style={style} onClick={this.play}
         />
+      </div>
         
         
         <Switch>

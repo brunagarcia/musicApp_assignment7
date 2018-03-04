@@ -4,6 +4,8 @@ body {
   padding: 0;
   font-family: "Roboto";
   background-color: #141414;
+  margin-left: 30%;
+  margin-right: 30%
 }
 
 .title {
@@ -24,6 +26,12 @@ body {
   color: #0f4e4e;
 }
 
+.listContainer{
+  display: flex;
+  justify-content: space-between;
+}
 
-
-
+.buttonPlay{
+  margin-left: 25%;
+  margin-right: 30%
+}

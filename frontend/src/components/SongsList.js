@@ -13,7 +13,7 @@ class SongsList extends Component {
     //mapping songs array
     let songsJSX = this.props.songs.map(song  => {
         
-      return <div>
+      return <div className="listContainer">
 
         <Link to={`/${song.id}`} className="links">
           <h3> {song.title} </h3>
